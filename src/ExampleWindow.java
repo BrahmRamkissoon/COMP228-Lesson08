@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -31,7 +32,7 @@ public class ExampleWindow extends JFrame implements ActionListener {
 	private JButton _goodbyeButton;
 	private JLabel _ageLabel;
 	private JTextField _ageTextField;
-	private JComboBox _numComboBox;
+	private JComboBox _todoComboBox;
 
 	private Border _redLine, _blackLine;
 
@@ -57,6 +58,7 @@ public class ExampleWindow extends JFrame implements ActionListener {
 		this._nameTextField.addActionListener(this);
 		this._goodbyeButton.addActionListener(this);
 		this._ageTextField.addActionListener(this);
+		this._todoComboBox.addActionListener(this);
 
 	}
 
@@ -112,14 +114,15 @@ public class ExampleWindow extends JFrame implements ActionListener {
 		this._ageTextField.setBounds(99, 72, 131, 29);
 		this._ageTextField.setBorder(this._blackLine);
 		this._contentPane.add(this._ageTextField);
-		
-		this._numComboBox = new JComboBox();
-		this._numComboBox.setMaximumRowCount(4);
-		this._numComboBox.setEditable(true);
-		this._numComboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
-		this._numComboBox.setSelectedIndex(0);
-		this._numComboBox.setBounds(192, 123, 38, 20);
-		this._contentPane.add(this._numComboBox);
+
+		this._todoComboBox = new JComboBox();
+		this._todoComboBox.setMaximumRowCount(4);
+		this._todoComboBox.setEditable(true);
+		this._todoComboBox.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
+		this._todoComboBox.setSelectedIndex(0);
+		this._todoComboBox.setBounds(192, 123, 38, 20);
+		this._contentPane.add(this._todoComboBox);
+
 	}
 
 	// THIRD METHOD OF HANDLING EVENTS, less control but easier access to
@@ -147,10 +150,17 @@ public class ExampleWindow extends JFrame implements ActionListener {
 			} catch (Exception e) {
 				this._helloLabel.setText("Hey, tha's just wrong");
 				this._ageTextField.selectAll();
-
 				this._ageTextField.setBorder(this._redLine);
 			}
+		}
 
+		if (event.getSource() == this._todoComboBox) {
+			ArrayList<JTextField> textFieldArrayList = new ArrayList<JTextField>();
+			for (int index = 0; index <= this._todoComboBox.getSelectedIndex(); index++) {
+				textFieldArrayList.add(new JTextField());
+				textFieldArrayList.get(index).setBounds(99, 72 + (index * 30), 131, 29);
+				this._contentPane.add(textFieldArrayList.get(index));
+			}
 		}
 	}
 }
