@@ -1,3 +1,6 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -8,8 +11,9 @@ import javax.swing.border.EmptyBorder;
 /**
  * Start https://youtu.be/IvZMfSR_uP4?list=PL5svY1bZDBZrHNW4_Val5LXh0_MSfxeaO
  * End https://youtu.be/jRE5ouam9kI?list=PL5svY1bZDBZrHNW4_Val5LXh0_MSfxeaO
- * @author Tom Tsiliopoulos 
- *         
+ * 
+ * @author Tom Tsiliopoulos
+ * 
  */
 // EXAMPLEWINDOW CLASS ++++++++++++++++++++++++++++++++++++++
 public class ExampleWindow extends JFrame {
@@ -18,8 +22,8 @@ public class ExampleWindow extends JFrame {
 	private JLabel _helloLabel; // access to _helloLabel
 	private JLabel _nameLabel;
 	private JTextField _nameTextField;
-	
-	private NameTextFieldHandler _nameTextFieldHandler;
+
+	// private _nameTextFieldHandler _nameTextFieldHandler;
 
 	// PUBLIC PROPERTIES ++++++++++++++++++++++++++++++++++++++
 	public JLabel getHelloLabel() {
@@ -36,9 +40,16 @@ public class ExampleWindow extends JFrame {
 	public ExampleWindow() {
 		this._initialize();
 		this._addUIComponents();
-		
-		this._nameTextFieldHandler = new NameTextFieldHandler(this);
-		this._nameTextField.addActionListener(this._nameTextFieldHandler);
+
+		// this._nameTextFieldHandler = new _nameTextFieldHandler(this);
+		// this._nameTextField.addActionListener(this._nameTextFieldHandler);
+
+		// 1. declare a custom handler
+		nameTextFieldHandler handler = new nameTextFieldHandler();
+		// 2. listen for events on object
+		this._nameTextField.addActionListener(handler);
+		// 3. add action to do in to inner class
+
 	}
 
 	// PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++
@@ -50,10 +61,9 @@ public class ExampleWindow extends JFrame {
 		this.setContentPane(this._contentPane);
 
 	}
-	
-	
+
 	private void _addHelloLabel() {
-		this._helloLabel.setBounds(5, 6, 96, 23);
+		this._helloLabel.setBounds(5, 6, 225, 23);
 		this._contentPane.add(this._helloLabel);
 	}
 
@@ -75,6 +85,18 @@ public class ExampleWindow extends JFrame {
 		this._nameTextField = new JTextField();
 		this._nameTextField.setBounds(99, 35, 131, 29);
 		this._contentPane.add(_nameTextField);
+
+	}
+
+	// INNER CLASS
+	public class nameTextFieldHandler implements ActionListener {
+		private ExampleWindow _callingWindow;
+
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			_helloLabel.setText("Enter Pressed");
+
+		}
 
 	}
 
