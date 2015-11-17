@@ -37,7 +37,7 @@ public class ExampleWindow extends JFrame {
 		this._initialize();
 		this._addUIComponents();
 		
-		this._nameTextFieldHandler = new NameTextFieldHandler();
+		this._nameTextFieldHandler = new NameTextFieldHandler(this);
 		this._nameTextField.addActionListener(this._nameTextFieldHandler);
 	}
 
