@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
 
 /**
  * Start https://youtu.be/IvZMfSR_uP4?list=PL5svY1bZDBZrHNW4_Val5LXh0_MSfxeaO
@@ -17,14 +16,14 @@ import javax.swing.JButton;
  * 
  */
 // EXAMPLEWINDOW CLASS ++++++++++++++++++++++++++++++++++++++
-public class ExampleWindow extends JFrame implements ActionListener {
+public class ExampleWindow_InnerClass extends JFrame {
 	// PRIVATE INSTANCE VARIABLES ++++++++++++++++++++++++++++++++++++++
 	private JPanel _contentPane; // JPanel Container
 	private JLabel _helloLabel; // access to _helloLabel
 	private JLabel _nameLabel;
 	private JTextField _nameTextField;
-	private JButton _goodbyeButton;
 
+	// private _nameTextFieldHandler _nameTextFieldHandler;
 
 	// PUBLIC PROPERTIES ++++++++++++++++++++++++++++++++++++++
 	public JLabel getHelloLabel() {
@@ -38,14 +37,19 @@ public class ExampleWindow extends JFrame implements ActionListener {
 	}
 
 	// CONSTRUCTOR METHOD ++++++++++++++++++++++++++++++++++++++
-	public ExampleWindow() {
+	public ExampleWindow_InnerClass() {
 		this._initialize();
 		this._addUIComponents();
-		
-		// Register event handlers, where "this" references the entire class and actionPerformed method
-		this._nameTextField.addActionListener(this);
-		this._goodbyeButton.addActionListener(this);
-		
+
+		// this._nameTextFieldHandler = new _nameTextFieldHandler(this);
+		// this._nameTextField.addActionListener(this._nameTextFieldHandler);
+
+		// 1. declare a custom handler
+		nameTextFieldHandler handler = new nameTextFieldHandler();
+		// 2. listen for events on object
+		this._nameTextField.addActionListener(handler);
+		// 3. add action to do in to inner class
+
 	}
 
 	// PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++
@@ -81,27 +85,19 @@ public class ExampleWindow extends JFrame implements ActionListener {
 		this._nameTextField = new JTextField();
 		this._nameTextField.setBounds(99, 35, 131, 29);
 		this._contentPane.add(_nameTextField);
-		
-		// Goodbye Button
-		this._goodbyeButton = new JButton("Click Me!");
-		this._goodbyeButton.setBounds(109, 75, 121, 23);
-		_contentPane.add(this._goodbyeButton);
+
 	}
-	
-	
-	
-	// THIRD METHOD OF HANDLING EVENTS, less control but easier access to variables?
-	// implements ActionListener interface and add methods
-	
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		
-		if(event.getSource() == this._nameTextField){
-		this._helloLabel.setText("nameTextField - Enter Pressed");
+
+	// INNER CLASS
+	public class nameTextFieldHandler implements ActionListener {
+		private ExampleWindow_InnerClass _callingWindow;
+
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			_helloLabel.setText("Enter Pressed");
+
 		}
-		
-		if(event.getSource() == this._goodbyeButton){
-			this._helloLabel.setText("goodbyeButton - clicked");
-		}
+
 	}
+
 }
