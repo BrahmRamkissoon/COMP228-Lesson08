@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -18,8 +19,8 @@ import javax.swing.border.EmptyBorder;
 
 /**
  * Start https://youtu.be/IvZMfSR_uP4?list=PL5svY1bZDBZrHNW4_Val5LXh0_MSfxeaO
- * End https://youtu.be/nqf12rNQvkE?list=PL5svY1bZDBZrHNW4_Val5LXh0_MSfxeaO @
- * 39:26
+ * End https://youtu.be/HU4DaEsPARc?list=PL5svY1bZDBZrHNW4_Val5LXh0_MSfxeaO @
+ * 5:48
  * 
  * @author Tom Tsiliopoulos
  * 
@@ -39,8 +40,9 @@ public class TodoWindow extends JFrame implements ActionListener {
 	private Border _redLine, _blackLine;
 	private JTextField textField;
 	private JScrollPane _todoScrollPane;
-	private JPanel _todoScrollPanel;
+	private JPanel _todoPanel;
 	private JTextField textField_1;
+	private ArrayList<TodoTextField> _todoArrayList;
 
 	// PUBLIC PROPERTIES ++++++++++++++++++++++++++++++++++++++
 	public JLabel getHelloLabel() {
@@ -71,7 +73,7 @@ public class TodoWindow extends JFrame implements ActionListener {
 	// PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++
 	private void _initialize() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 300, 300);
+		setBounds(100, 100, 321, 338);
 		this._contentPane = new JPanel();
 		this._contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setContentPane(this._contentPane);
@@ -86,7 +88,7 @@ public class TodoWindow extends JFrame implements ActionListener {
 		this._messageLabel.setBounds(5, 6, 225, 23);
 		this._contentPane.add(this._messageLabel);
 	}
-	
+
 	// adds all the UI Components to the Content Pane
 	private void _addUIComponents() {
 		// Use Absolute Layout
@@ -131,11 +133,11 @@ public class TodoWindow extends JFrame implements ActionListener {
 		this._contentPane.add(this._todoComboBox);
 
 		// Container for Todo items
-		this._todoScrollPanel = new JPanel();
+		this._todoPanel = new JPanel();
 
 		// Add ScrollPane to contain our TodoPanel
-		this._todoScrollPane = new JScrollPane(this._todoScrollPanel);
-		this._todoScrollPane.setBounds(100, 120, 174, 130);
+		this._todoScrollPane = new JScrollPane(this._todoPanel);
+		this._todoScrollPane.setBounds(100, 120, 194, 152);
 		this._todoScrollPane.setPreferredSize(new Dimension(8, 8));
 		this._todoScrollPane.setAutoscrolls(true);
 
@@ -143,14 +145,19 @@ public class TodoWindow extends JFrame implements ActionListener {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 
 		// Limit the number of textFields to 10
-		gridBagLayout.columnWidths = new int[] { 171, 0 };
+		gridBagLayout.columnWidths = new int[] { 171 };
 		gridBagLayout.rowHeights = new int[] { 30, 30, 30, 30, 30, 30, 30, 30, 30, 30 };
-		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 
 		// set the todoPanel to the GridBagLayout defined above
-		this._todoScrollPanel.setLayout(gridBagLayout);
+		this._todoPanel.setLayout(gridBagLayout);
 		this._contentPane.add(this._todoScrollPane);
+
+		// add a default todoTextField to the todoPanel
+		this._todoArrayList = new ArrayList<TodoTextField>();
+		this._todoArrayList.add(new TodoTextField(this._todoPanel, 0));
+		this._messageLabel.setText("1 Todo Fields");
 	}
 
 	// THIRD METHOD OF HANDLING EVENTS, less control but easier access to
@@ -183,18 +190,36 @@ public class TodoWindow extends JFrame implements ActionListener {
 		}
 
 		if (event.getSource() == this._todoComboBox) {
-			System.out.println(this._todoComboBox.getSelectedIndex());
+			// store the selected index item
+			int numTodoFields = this._todoComboBox.getSelectedIndex() + 1;
 
-			/*
-			 * ArrayList<JTextField> textFieldArrayList = new
-			 * ArrayList<JTextField>(); for (int index = 0; index <=
-			 * this._todoComboBox.getSelectedIndex(); index++) {
-			 * textFieldArrayList.add(new JTextField());
-			 * textFieldArrayList.get(index).setBounds(100, 80 + (index * 45),
-			 * 130, 30); this._contentPane.add(textFieldArrayList.get(index));
-			 * 
-			 * }
-			 */
+			// clear the todoPanel
+			this._todoPanel.removeAll();
+
+			// clear the todoArrayList
+			this._todoArrayList.clear();
+
+			// add the selected number of rows to the todoArrayList
+			for (int index = 0; index < numTodoFields; index++) {
+				TodoTextField todoTextField = new TodoTextField(this._todoPanel, index);
+				this._todoArrayList.add(todoTextField);
+				
+				// adding an anonymous inner listener
+				/*todoTextField.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						_messageLabel.setText(todoTextField.getText());
+					}
+				});*/
+			}
+			this._messageLabel.setText(numTodoFields + " Todo Fields");
+
+			// redraw the todoPanel
+			this._todoPanel.revalidate();
+
+			System.out.println(this._todoArrayList.size());
 		}
+
 	}
 }
