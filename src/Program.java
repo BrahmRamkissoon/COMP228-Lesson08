@@ -7,7 +7,7 @@ public class Program {
 	public static void main(String[] args) {
 		try {
 			// EXAMPLE WINDOWS LIVES AND DIES HERE +++
-			ExampleWindow frame = new ExampleWindow();
+			TodoWindow frame = new TodoWindow();
 			frame.setVisible(true);
 			
 			// example to setvalue of a label part 1/2

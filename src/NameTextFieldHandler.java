@@ -4,10 +4,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 public class NameTextFieldHandler implements ActionListener {
-	private ExampleWindow _callingWindow;
+	private TodoWindow _callingWindow;
 	
 	// let's try passing a reference to ExampleWindow class to modify a component
-	public NameTextFieldHandler(ExampleWindow callingWindow){
+	public NameTextFieldHandler(TodoWindow callingWindow){
 		this._callingWindow = callingWindow;
 	}
 	@Override

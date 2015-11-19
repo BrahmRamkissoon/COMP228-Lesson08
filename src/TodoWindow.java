@@ -1,7 +1,8 @@
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -10,20 +11,21 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 /**
  * Start https://youtu.be/IvZMfSR_uP4?list=PL5svY1bZDBZrHNW4_Val5LXh0_MSfxeaO
- * End https://youtu.be/jRE5ouam9kI?list=PL5svY1bZDBZrHNW4_Val5LXh0_MSfxeaO
+ * End https://youtu.be/nqf12rNQvkE?list=PL5svY1bZDBZrHNW4_Val5LXh0_MSfxeaO @
+ * 39:26
  * 
  * @author Tom Tsiliopoulos
  * 
  */
 // EXAMPLEWINDOW CLASS ++++++++++++++++++++++++++++++++++++++
-public class ExampleWindow extends JFrame implements ActionListener {
+public class TodoWindow extends JFrame implements ActionListener {
 	// PRIVATE INSTANCE VARIABLES ++++++++++++++++++++++++++++++++++++++
 	private JPanel _contentPane; // JPanel Container
 	private JLabel _helloLabel; // access to _helloLabel
@@ -35,6 +37,10 @@ public class ExampleWindow extends JFrame implements ActionListener {
 	private JComboBox _todoComboBox;
 
 	private Border _redLine, _blackLine;
+	private JTextField textField;
+	private JScrollPane _todoScrollPane;
+	private JPanel _todoScrollPanel;
+	private JTextField textField_1;
 
 	// PUBLIC PROPERTIES ++++++++++++++++++++++++++++++++++++++
 	public JLabel getHelloLabel() {
@@ -48,7 +54,7 @@ public class ExampleWindow extends JFrame implements ActionListener {
 	}
 
 	// CONSTRUCTOR METHOD ++++++++++++++++++++++++++++++++++++++
-	public ExampleWindow() {
+	public TodoWindow() {
 		this._initialize();
 		this._setupBorders();
 		this._addUIComponents();
@@ -91,38 +97,59 @@ public class ExampleWindow extends JFrame implements ActionListener {
 
 		// Name Label
 		this._nameLabel = new JLabel("Enter Name:");
-		this._nameLabel.setBounds(5, 41, 96, 23);
-		this._nameLabel.setVerticalAlignment(SwingConstants.TOP);
+		this._nameLabel.setBounds(5, 35, 96, 30);
 		this._contentPane.add(_nameLabel);
 
 		// Name Text Field
 		this._nameTextField = new JTextField();
-		this._nameTextField.setBounds(99, 34, 131, 29);
+		this._nameTextField.setBounds(100, 35, 130, 30);
 		this._nameTextField.setBorder(this._blackLine);
 		this._contentPane.add(_nameTextField);
 
 		// Goodbye Button
 		this._goodbyeButton = new JButton("Click Me!");
-		this._goodbyeButton.setBounds(110, 202, 120, 29);
+		this._goodbyeButton.setBounds(5, 221, 75, 29);
 		this._contentPane.add(this._goodbyeButton);
 
+		// Age Label
 		this._ageLabel = new JLabel("Enter Age:");
-		this._ageLabel.setBounds(5, 75, 96, 26);
+		this._ageLabel.setBounds(5, 80, 96, 30);
 		this._contentPane.add(this._ageLabel);
 
+		// Age TextField
 		this._ageTextField = new JTextField();
-		this._ageTextField.setBounds(99, 72, 131, 29);
+		this._ageTextField.setBounds(99, 80, 130, 29);
 		this._ageTextField.setBorder(this._blackLine);
 		this._contentPane.add(this._ageTextField);
 
+		// Todo ComboBox
 		this._todoComboBox = new JComboBox();
-		this._todoComboBox.setMaximumRowCount(4);
-		this._todoComboBox.setEditable(true);
 		this._todoComboBox.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
 		this._todoComboBox.setSelectedIndex(0);
-		this._todoComboBox.setBounds(192, 123, 38, 20);
+		this._todoComboBox.setBounds(5, 120, 64, 38);
 		this._contentPane.add(this._todoComboBox);
 
+		// Container for Todo items
+		this._todoScrollPanel = new JPanel();
+
+		// Add ScrollPane to contain our TodoPanel
+		this._todoScrollPane = new JScrollPane(this._todoScrollPanel);
+		this._todoScrollPane.setBounds(100, 120, 174, 130);
+		this._todoScrollPane.setPreferredSize(new Dimension(8, 8));
+		this._todoScrollPane.setAutoscrolls(true);
+
+		// Define a GridBagLayout for our use
+		GridBagLayout gridBagLayout = new GridBagLayout();
+
+		// Limit the number of textFields to 10
+		gridBagLayout.columnWidths = new int[] { 171, 0 };
+		gridBagLayout.rowHeights = new int[] { 30, 30, 30, 30, 30, 30, 30, 30, 30, 30 };
+		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+
+		// set the todoPanel to the GridBagLayout defined above
+		this._todoScrollPanel.setLayout(gridBagLayout);
+		this._contentPane.add(this._todoScrollPane);
 	}
 
 	// THIRD METHOD OF HANDLING EVENTS, less control but easier access to
@@ -155,12 +182,18 @@ public class ExampleWindow extends JFrame implements ActionListener {
 		}
 
 		if (event.getSource() == this._todoComboBox) {
-			ArrayList<JTextField> textFieldArrayList = new ArrayList<JTextField>();
-			for (int index = 0; index <= this._todoComboBox.getSelectedIndex(); index++) {
-				textFieldArrayList.add(new JTextField());
-				textFieldArrayList.get(index).setBounds(99, 72 + (index * 30), 131, 29);
-				this._contentPane.add(textFieldArrayList.get(index));
-			}
+			System.out.println(this._todoComboBox.getSelectedIndex());
+
+			/*
+			 * ArrayList<JTextField> textFieldArrayList = new
+			 * ArrayList<JTextField>(); for (int index = 0; index <=
+			 * this._todoComboBox.getSelectedIndex(); index++) {
+			 * textFieldArrayList.add(new JTextField());
+			 * textFieldArrayList.get(index).setBounds(100, 80 + (index * 45),
+			 * 130, 30); this._contentPane.add(textFieldArrayList.get(index));
+			 * 
+			 * }
+			 */
 		}
 	}
 }
