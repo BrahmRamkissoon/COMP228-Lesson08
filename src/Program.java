@@ -9,15 +9,7 @@ public class Program {
 			// EXAMPLE WINDOWS LIVES AND DIES HERE +++
 			TodoWindow frame = new TodoWindow();
 			frame.setVisible(true);
-			
-			// example to setvalue of a label part 1/2
-			JLabel myLabel = new JLabel("GoodBye!!!");
-			
-			// get reference to object frame and its property and set text value
-			frame.getHelloLabel().setText("Hello World");
-			// example to setvalue of a lable part 2/2
-			frame.setMessageLabel(myLabel);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

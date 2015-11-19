@@ -25,12 +25,12 @@ public class TodoTextField extends JTextField implements ActionListener {
 		this.setColumns(10);
 		this.addActionListener(this);
 	}
-	
-	public void removeEventHandler(){
+
+	public void removeEventHandler() {
 		this.removeActionListener(this);
 		System.out.println("ActionListener removed!");
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		this._messageLabel.setText(this.getText());

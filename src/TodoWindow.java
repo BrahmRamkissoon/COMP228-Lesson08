@@ -19,8 +19,7 @@ import javax.swing.border.EmptyBorder;
 
 /**
  * Start https://youtu.be/IvZMfSR_uP4?list=PL5svY1bZDBZrHNW4_Val5LXh0_MSfxeaO
- * End https://youtu.be/HU4DaEsPARc?list=PL5svY1bZDBZrHNW4_Val5LXh0_MSfxeaO @
- * 5:48
+ * End https://youtu.be/HU4DaEsPARc?list=PL5svY1bZDBZrHNW4_Val5LXh0_MSfxeaO
  * 
  * @author Tom Tsiliopoulos
  * 
@@ -35,12 +34,12 @@ public class TodoWindow extends JFrame implements ActionListener {
 	private JButton _goodbyeButton;
 	private JLabel _ageLabel;
 	private JTextField _ageTextField;
-	private JComboBox _todoComboBox;
+	private JComboBox<String> _todoComboBox;
 
 	private Border _redLine, _blackLine;
 	private JTextField textField;
 	private JScrollPane _todoScrollPane;
-	private JPanel _todoPanel;	
+	private JPanel _todoPanel;
 	private ArrayList<TodoTextField> _todoArrayList;
 
 	// PUBLIC PROPERTIES ++++++++++++++++++++++++++++++++++++++
@@ -48,10 +47,10 @@ public class TodoWindow extends JFrame implements ActionListener {
 		return this._messageLabel;
 	}
 
-	public void setMessageLabel(JLabel helloLabel) {
+	public void setMessageLabel(JLabel messageLabel) {
 		this._contentPane.remove(this._messageLabel);
-		this._messageLabel = helloLabel;
-		this._addHelloLabel();
+		this._messageLabel = messageLabel;
+		this._addMessageLabel();
 	}
 
 	// CONSTRUCTOR METHOD ++++++++++++++++++++++++++++++++++++++
@@ -72,10 +71,10 @@ public class TodoWindow extends JFrame implements ActionListener {
 	// PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++
 	private void _initialize() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 321, 338);
+		setBounds(100, 100, 300, 300);
 		this._contentPane = new JPanel();
 		this._contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		this.setContentPane(this._contentPane);
+		setContentPane(this._contentPane);
 	}
 
 	private void _setupBorders() {
@@ -83,7 +82,7 @@ public class TodoWindow extends JFrame implements ActionListener {
 		this._redLine = BorderFactory.createLineBorder(Color.red);
 	}
 
-	private void _addHelloLabel() {
+	private void _addMessageLabel() {
 		this._messageLabel.setBounds(5, 6, 225, 23);
 		this._contentPane.add(this._messageLabel);
 	}
@@ -93,9 +92,9 @@ public class TodoWindow extends JFrame implements ActionListener {
 		// Use Absolute Layout
 		this._contentPane.setLayout(null);
 
-		// Hello Label
+		// Message Label
 		this._messageLabel = new JLabel("Todo Fields");
-		this._addHelloLabel();
+		this._addMessageLabel();
 
 		// Name Label
 		this._nameLabel = new JLabel("Enter Name:");
@@ -105,28 +104,30 @@ public class TodoWindow extends JFrame implements ActionListener {
 		// Name Text Field
 		this._nameTextField = new JTextField();
 		this._nameTextField.setBounds(100, 35, 130, 30);
+		this._nameTextField.setText("");
 		this._nameTextField.setBorder(this._blackLine);
-		this._contentPane.add(_nameTextField);
+		this._contentPane.add(this._nameTextField);
 
 		// Goodbye Button
 		this._goodbyeButton = new JButton("Click Me!");
-		this._goodbyeButton.setBounds(5, 221, 75, 29);
+		this._goodbyeButton.setBounds(5, 224, 86, 29);
 		this._contentPane.add(this._goodbyeButton);
 
 		// Age Label
 		this._ageLabel = new JLabel("Enter Age:");
-		this._ageLabel.setBounds(5, 80, 96, 30);
+		this._ageLabel.setBounds(5, 80, 76, 30);
 		this._contentPane.add(this._ageLabel);
 
 		// Age TextField
 		this._ageTextField = new JTextField();
-		this._ageTextField.setBounds(99, 80, 130, 29);
+		this._ageTextField.setBounds(100, 80, 130, 30);
 		this._ageTextField.setBorder(this._blackLine);
 		this._contentPane.add(this._ageTextField);
 
 		// Todo ComboBox
 		this._todoComboBox = new JComboBox<String>();
-		this._todoComboBox.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
+		this._todoComboBox
+				.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 		this._todoComboBox.setSelectedIndex(0);
 		this._todoComboBox.setBounds(5, 120, 64, 38);
 		this._contentPane.add(this._todoComboBox);
@@ -182,7 +183,7 @@ public class TodoWindow extends JFrame implements ActionListener {
 				this._ageTextField.setBorder(this._blackLine);
 
 			} catch (Exception e) {
-				this._messageLabel.setText("Hey, tha's just wrong");
+				this._messageLabel.setText("Hey, that's just wrong");
 				this._ageTextField.selectAll();
 				this._ageTextField.setBorder(this._redLine);
 			}
@@ -194,12 +195,12 @@ public class TodoWindow extends JFrame implements ActionListener {
 
 			// clear the todoPanel
 			this._todoPanel.removeAll();
-			
+
 			// clear event handlers
-			for (TodoTextField todoTextField : _todoArrayList) {
+			for (TodoTextField todoTextField : this._todoArrayList) {
 				todoTextField.removeEventHandler();
 			}
-			
+
 			// clear the todoArrayList
 			this._todoArrayList.clear();
 
