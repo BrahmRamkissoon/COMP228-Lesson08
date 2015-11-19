@@ -16,7 +16,7 @@ public class Program {
 			// get reference to object frame and its property and set text value
 			frame.getHelloLabel().setText("Hello World");
 			// example to setvalue of a lable part 2/2
-			frame.setHelloLabel(myLabel);
+			frame.setMessageLabel(myLabel);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

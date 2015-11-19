@@ -28,7 +28,7 @@ import javax.swing.border.EmptyBorder;
 public class TodoWindow extends JFrame implements ActionListener {
 	// PRIVATE INSTANCE VARIABLES ++++++++++++++++++++++++++++++++++++++
 	private JPanel _contentPane; // JPanel Container
-	private JLabel _helloLabel; // access to _helloLabel
+	private JLabel _messageLabel; // access to _helloLabel
 	private JLabel _nameLabel;
 	private JTextField _nameTextField;
 	private JButton _goodbyeButton;
@@ -44,12 +44,12 @@ public class TodoWindow extends JFrame implements ActionListener {
 
 	// PUBLIC PROPERTIES ++++++++++++++++++++++++++++++++++++++
 	public JLabel getHelloLabel() {
-		return this._helloLabel;
+		return this._messageLabel;
 	}
 
-	public void setHelloLabel(JLabel helloLabel) {
-		this._contentPane.remove(this._helloLabel);
-		this._helloLabel = helloLabel;
+	public void setMessageLabel(JLabel helloLabel) {
+		this._contentPane.remove(this._messageLabel);
+		this._messageLabel = helloLabel;
 		this._addHelloLabel();
 	}
 
@@ -83,16 +83,17 @@ public class TodoWindow extends JFrame implements ActionListener {
 	}
 
 	private void _addHelloLabel() {
-		this._helloLabel.setBounds(5, 6, 225, 23);
-		this._contentPane.add(this._helloLabel);
+		this._messageLabel.setBounds(5, 6, 225, 23);
+		this._contentPane.add(this._messageLabel);
 	}
-
+	
+	// adds all the UI Components to the Content Pane
 	private void _addUIComponents() {
 		// Use Absolute Layout
 		this._contentPane.setLayout(null);
 
 		// Hello Label
-		this._helloLabel = new JLabel("New label");
+		this._messageLabel = new JLabel("Todo Fields");
 		this._addHelloLabel();
 
 		// Name Label
@@ -123,7 +124,7 @@ public class TodoWindow extends JFrame implements ActionListener {
 		this._contentPane.add(this._ageTextField);
 
 		// Todo ComboBox
-		this._todoComboBox = new JComboBox();
+		this._todoComboBox = new JComboBox<String>();
 		this._todoComboBox.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
 		this._todoComboBox.setSelectedIndex(0);
 		this._todoComboBox.setBounds(5, 120, 64, 38);
@@ -160,22 +161,22 @@ public class TodoWindow extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 
 		if (event.getSource() == this._nameTextField) {
-			this._helloLabel.setText(this._nameTextField.getText());
+			this._messageLabel.setText(this._nameTextField.getText());
 		}
 
 		if (event.getSource() == this._goodbyeButton) {
-			this._helloLabel.setText("goodbyeButton - clicked");
+			this._messageLabel.setText("goodbyeButton - clicked");
 		}
 
 		if (event.getSource() == this._ageTextField) {
 
 			try {
 				int ageDifference = 46 - Integer.parseInt(this._ageTextField.getText());
-				this._helloLabel.setText(Integer.toString(ageDifference));
+				this._messageLabel.setText(Integer.toString(ageDifference));
 				this._ageTextField.setBorder(this._blackLine);
 
 			} catch (Exception e) {
-				this._helloLabel.setText("Hey, tha's just wrong");
+				this._messageLabel.setText("Hey, tha's just wrong");
 				this._ageTextField.selectAll();
 				this._ageTextField.setBorder(this._redLine);
 			}
