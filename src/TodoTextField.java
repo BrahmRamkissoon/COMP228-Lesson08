@@ -1,12 +1,20 @@
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 // Custom TextField Class
-public class TodoTextField extends JTextField {
-	// 	CONSTRUCTOR +++++++++++++++++++++++++++++++++++++++
-	public TodoTextField(JPanel todoPanel, int row) {
+public class TodoTextField extends JTextField implements ActionListener {
+	// PRIVATE INSTANCE VARIABLES
+	private JLabel _messageLabel;
+
+	// CONSTRUCTOR +++++++++++++++++++++++++++++++++++++++
+	public TodoTextField(JPanel todoPanel, int row, JLabel messageLabel) {
+		this._messageLabel = messageLabel;
 
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.fill = GridBagConstraints.BOTH;
@@ -15,6 +23,18 @@ public class TodoTextField extends JTextField {
 		constraints.gridy = row;
 		todoPanel.add(this, constraints);
 		this.setColumns(10);
+		this.addActionListener(this);
+	}
+	
+	public void removeEventHandler(){
+		this.removeActionListener(this);
+		System.out.println("ActionListener removed!");
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		this._messageLabel.setText(this.getText());
+
 	}
 
 }

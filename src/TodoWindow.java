@@ -40,8 +40,7 @@ public class TodoWindow extends JFrame implements ActionListener {
 	private Border _redLine, _blackLine;
 	private JTextField textField;
 	private JScrollPane _todoScrollPane;
-	private JPanel _todoPanel;
-	private JTextField textField_1;
+	private JPanel _todoPanel;	
 	private ArrayList<TodoTextField> _todoArrayList;
 
 	// PUBLIC PROPERTIES ++++++++++++++++++++++++++++++++++++++
@@ -156,7 +155,7 @@ public class TodoWindow extends JFrame implements ActionListener {
 
 		// add a default todoTextField to the todoPanel
 		this._todoArrayList = new ArrayList<TodoTextField>();
-		this._todoArrayList.add(new TodoTextField(this._todoPanel, 0));
+		this._todoArrayList.add(new TodoTextField(this._todoPanel, 0, this._messageLabel));
 		this._messageLabel.setText("1 Todo Fields");
 	}
 
@@ -195,23 +194,20 @@ public class TodoWindow extends JFrame implements ActionListener {
 
 			// clear the todoPanel
 			this._todoPanel.removeAll();
-
+			
+			// clear event handlers
+			for (TodoTextField todoTextField : _todoArrayList) {
+				todoTextField.removeEventHandler();
+			}
+			
 			// clear the todoArrayList
 			this._todoArrayList.clear();
 
 			// add the selected number of rows to the todoArrayList
 			for (int index = 0; index < numTodoFields; index++) {
-				TodoTextField todoTextField = new TodoTextField(this._todoPanel, index);
+				TodoTextField todoTextField = new TodoTextField(this._todoPanel, index, this._messageLabel);
 				this._todoArrayList.add(todoTextField);
-				
-				// adding an anonymous inner listener
-				/*todoTextField.addActionListener(new ActionListener() {
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						_messageLabel.setText(todoTextField.getText());
-					}
-				});*/
 			}
 			this._messageLabel.setText(numTodoFields + " Todo Fields");
 
